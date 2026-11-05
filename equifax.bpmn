@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="defs_equifax" targetNamespace="https://upc.ac.cd/cours/cyb7320">
+<collaboration id="collab">
+<participant id="pool_main" name="Equifax" processRef="proc"/>
+<participant id="pool_ext" name="Apache Software Foundation et US-CERT"/>
+<messageFlow id="mf0" sourceRef="pool_ext" targetRef="s"/>
+</collaboration>
+<process id="proc" isExecutable="false"><laneSet id="ls">
+<lane id="lane0" name="Sécurité centrale"><flowNodeRef>s</flowNodeRef><flowNodeRef>t1</flowNodeRef><flowNodeRef>t4</flowNodeRef><flowNodeRef>g</flowNodeRef><flowNodeRef>e2</flowNodeRef></lane>
+<lane id="lane1" name="Infrastructure et équipes applicatives"><flowNodeRef>t2</flowNodeRef><flowNodeRef>t3</flowNodeRef><flowNodeRef>t5</flowNodeRef><flowNodeRef>e1</flowNodeRef></lane>
+<lane id="lane2" name="Comité d&#x27;audit"></lane>
+</laneSet>
+<startEvent id="s" name="Alerte CVE-2017-5638"><outgoing>f0</outgoing><messageEventDefinition id="med_s"/></startEvent>
+<task id="t1" name="Diffuser l&#x27;alerte par liste de diffusion"><incoming>f0</incoming><outgoing>f1</outgoing></task>
+<task id="t2" name="Identifier les systèmes à corriger"><incoming>f1</incoming><outgoing>f2</outgoing></task>
+<task id="t3" name="Corriger les systèmes identifiés"><incoming>f2</incoming><outgoing>f3</outgoing></task>
+<task id="t4" name="Lancer un scan de vulnérabilités"><incoming>f3</incoming><outgoing>f4</outgoing></task>
+<exclusiveGateway id="g" name="Système non corrigé détecté ?"><incoming>f4</incoming><outgoing>f5</outgoing><outgoing>f6</outgoing></exclusiveGateway>
+<task id="t5" name="Corriger le système détecté"><incoming>f5</incoming><outgoing>f7</outgoing></task>
+<endEvent id="e1" name="Systèmes corrigés"><incoming>f7</incoming></endEvent>
+<endEvent id="e2" name="Portail exposé sans correctif"><incoming>f6</incoming></endEvent>
+<sequenceFlow id="f0" sourceRef="s" targetRef="t1"/>
+<sequenceFlow id="f1" sourceRef="t1" targetRef="t2"/>
+<sequenceFlow id="f2" sourceRef="t2" targetRef="t3"/>
+<sequenceFlow id="f3" sourceRef="t3" targetRef="t4"/>
+<sequenceFlow id="f4" sourceRef="t4" targetRef="g"/>
+<sequenceFlow id="f5" name="oui" sourceRef="g" targetRef="t5"/>
+<sequenceFlow id="f6" name="non (cas réel)" sourceRef="g" targetRef="e2"/>
+<sequenceFlow id="f7" sourceRef="t5" targetRef="e1"/>
+<textAnnotation id="a1"><text>Défaillance 1 : la liste de diffusion n&#x27;a pas de responsable unique</text></textAnnotation><association id="as_a1" sourceRef="a1" targetRef="t1"/>
+<textAnnotation id="a2"><text>Défaillance 2 : aucun seuil ne déclenche d&#x27;escalade vers le comité</text></textAnnotation><association id="as_a2" sourceRef="a2" targetRef="t3"/>
+<textAnnotation id="a3"><text>Défaillance 3 : le scan ne détecte pas le système non corrigé</text></textAnnotation><association id="as_a3" sourceRef="a3" targetRef="t4"/>
+</process><bpmndi:BPMNDiagram id="dg"><bpmndi:BPMNPlane id="pl" bpmnElement="collab">
+<bpmndi:BPMNShape id="s_pool_main" bpmnElement="pool_main" isHorizontal="true"><dc:Bounds x="0" y="68" width="1296" height="396"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_pool_ext" bpmnElement="pool_ext" isHorizontal="true"><dc:Bounds x="0" y="0" width="1296" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane0" bpmnElement="lane0" isHorizontal="true"><dc:Bounds x="34" y="68" width="1262" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane1" bpmnElement="lane1" isHorizontal="true"><dc:Bounds x="34" y="200" width="1262" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane2" bpmnElement="lane2" isHorizontal="true"><dc:Bounds x="34" y="332" width="1262" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_s" bpmnElement="s"><dc:Bounds x="129.0" y="116.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t1" bpmnElement="t1"><dc:Bounds x="221.0" y="92.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t2" bpmnElement="t2"><dc:Bounds x="355.0" y="224.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t3" bpmnElement="t3"><dc:Bounds x="489.0" y="224.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t4" bpmnElement="t4"><dc:Bounds x="623.0" y="92.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_g" bpmnElement="g"><dc:Bounds x="794.0" y="111.0" width="46" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t5" bpmnElement="t5"><dc:Bounds x="891.0" y="224.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_e1" bpmnElement="e1"><dc:Bounds x="1067.0" y="248.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_e2" bpmnElement="e2"><dc:Bounds x="1201.0" y="116.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_a1" bpmnElement="a1"><dc:Bounds x="358.5" y="99.0" width="165" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_a2" bpmnElement="a2"><dc:Bounds x="580.5" y="363.0" width="165" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_a3" bpmnElement="a3"><dc:Bounds x="624.5" y="231.0" width="165" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="e_f0" bpmnElement="f0"><di:waypoint x="165.0" y="134.0"/><di:waypoint x="221.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f1" bpmnElement="f1"><di:waypoint x="341.0" y="134.0"/><di:waypoint x="348.0" y="134.0"/><di:waypoint x="348.0" y="266.0"/><di:waypoint x="355.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f2" bpmnElement="f2"><di:waypoint x="475.0" y="266.0"/><di:waypoint x="489.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f3" bpmnElement="f3"><di:waypoint x="609.0" y="266.0"/><di:waypoint x="616.0" y="266.0"/><di:waypoint x="616.0" y="134.0"/><di:waypoint x="623.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f4" bpmnElement="f4"><di:waypoint x="743.0" y="134.0"/><di:waypoint x="794.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f5" bpmnElement="f5"><di:waypoint x="817.0" y="157.0"/><di:waypoint x="817.0" y="266.0"/><di:waypoint x="891.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f6" bpmnElement="f6"><di:waypoint x="840.0" y="134.0"/><di:waypoint x="1201.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f7" bpmnElement="f7"><di:waypoint x="1011.0" y="266.0"/><di:waypoint x="1067.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_mf0" bpmnElement="mf0"><di:waypoint x="147.0" y="46"/><di:waypoint x="147.0" y="116.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_as_a1" bpmnElement="as_a1"><di:waypoint x="358.5" y="134.0"/><di:waypoint x="341.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_as_a2" bpmnElement="as_a2"><di:waypoint x="604.5" y="363.0"/><di:waypoint x="549.0" y="308.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_as_a3" bpmnElement="as_a3"><di:waypoint x="648.5" y="231.0"/><di:waypoint x="683.0" y="176.0"/></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram></definitions>

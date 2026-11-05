@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="defs_mgm" targetNamespace="https://upc.ac.cd/cours/cyb7320">
+<collaboration id="collab">
+<participant id="pool_main" name="MGM Resorts" processRef="proc"/>
+<participant id="pool_ext" name="Attaquant (Scattered Spider / UNC3944)"/>
+<messageFlow id="mf0" sourceRef="pool_ext" targetRef="s"/>
+</collaboration>
+<process id="proc" isExecutable="false"><laneSet id="ls">
+<lane id="lane0" name="Service d&#x27;assistance"><flowNodeRef>s</flowNodeRef><flowNodeRef>t1</flowNodeRef><flowNodeRef>g</flowNodeRef><flowNodeRef>e0</flowNodeRef></lane>
+<lane id="lane1" name="Infrastructure d&#x27;identité"><flowNodeRef>t2</flowNodeRef><flowNodeRef>t3</flowNodeRef><flowNodeRef>g1</flowNodeRef></lane>
+<lane id="lane2" name="Hôtels et casinos"><flowNodeRef>t5</flowNodeRef><flowNodeRef>e2</flowNodeRef></lane>
+<lane id="lane3" name="Direction et cellule de crise"><flowNodeRef>t6</flowNodeRef><flowNodeRef>g3</flowNodeRef><flowNodeRef>g2</flowNodeRef><flowNodeRef>t7</flowNodeRef><flowNodeRef>e3</flowNodeRef></lane>
+</laneSet>
+<startEvent id="s" name="Appel reçu"><outgoing>f0</outgoing><messageEventDefinition id="med_s"/></startEvent>
+<task id="t1" name="Vérifier l&#x27;identité de l&#x27;appelant"><incoming>f0</incoming><outgoing>f1</outgoing></task>
+<exclusiveGateway id="g" name="Identité acceptée ?"><incoming>f1</incoming><outgoing>f2</outgoing><outgoing>f3</outgoing></exclusiveGateway>
+<endEvent id="e0" name="Demande refusée"><incoming>f2</incoming></endEvent>
+<task id="t2" name="Réinitialiser l&#x27;accès ou le MFA"><incoming>f3</incoming><outgoing>f4</outgoing></task>
+<task id="t3" name="Subir l&#x27;élévation de privilèges et le rançongiciel"><incoming>f4</incoming><outgoing>f5</outgoing></task>
+<parallelGateway id="g1" name=""><incoming>f5</incoming><outgoing>f6</outgoing><outgoing>f7</outgoing></parallelGateway>
+<task id="t5" name="Passer en mode manuel : accueil, clés, jeux"><incoming>f6</incoming><outgoing>f8</outgoing></task>
+<task id="t6" name="Engager conseils et réponse à incident"><incoming>f7</incoming><outgoing>f9</outgoing></task>
+<parallelGateway id="g3" name=""><incoming>f8</incoming><incoming>f9</incoming><outgoing>f10</outgoing></parallelGateway>
+<exclusiveGateway id="g2" name="Payer la rançon ?"><incoming>f10</incoming><outgoing>f11</outgoing><outgoing>f12</outgoing></exclusiveGateway>
+<endEvent id="e2" name="Voie de Caesars, selon la presse"><incoming>f12</incoming></endEvent>
+<task id="t7" name="Informer clients et marché"><incoming>f11</incoming><outgoing>f13</outgoing></task>
+<endEvent id="e3" name="Reprise après mode dégradé"><incoming>f13</incoming></endEvent>
+<sequenceFlow id="f0" sourceRef="s" targetRef="t1"/>
+<sequenceFlow id="f1" sourceRef="t1" targetRef="g"/>
+<sequenceFlow id="f2" name="non" sourceRef="g" targetRef="e0"/>
+<sequenceFlow id="f3" name="oui" sourceRef="g" targetRef="t2"/>
+<sequenceFlow id="f4" sourceRef="t2" targetRef="t3"/>
+<sequenceFlow id="f5" sourceRef="t3" targetRef="g1"/>
+<sequenceFlow id="f6" sourceRef="g1" targetRef="t5"/>
+<sequenceFlow id="f7" sourceRef="g1" targetRef="t6"/>
+<sequenceFlow id="f8" sourceRef="t5" targetRef="g3"/>
+<sequenceFlow id="f9" sourceRef="t6" targetRef="g3"/>
+<sequenceFlow id="f10" sourceRef="g3" targetRef="g2"/>
+<sequenceFlow id="f11" name="non" sourceRef="g2" targetRef="t7"/>
+<sequenceFlow id="f12" name="oui" sourceRef="g2" targetRef="e2"/>
+<sequenceFlow id="f13" sourceRef="t7" targetRef="e3"/>
+<textAnnotation id="a1"><text>Défaillance 1 : l&#x27;agent le moins formé porte un contrôle de sécurité majeur</text></textAnnotation><association id="as_a1" sourceRef="a1" targetRef="t1"/>
+<textAnnotation id="a2"><text>Défaillance 2 : l&#x27;identité est un point unique de défaillance</text></textAnnotation><association id="as_a2" sourceRef="a2" targetRef="t2"/>
+<textAnnotation id="a3"><text>Défaillance 3 : la continuité n&#x27;envisageait pas la perte de l&#x27;identité</text></textAnnotation><association id="as_a3" sourceRef="a3" targetRef="t3"/>
+</process><bpmndi:BPMNDiagram id="dg"><bpmndi:BPMNPlane id="pl" bpmnElement="collab">
+<bpmndi:BPMNShape id="s_pool_main" bpmnElement="pool_main" isHorizontal="true"><dc:Bounds x="0" y="68" width="1564" height="528"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_pool_ext" bpmnElement="pool_ext" isHorizontal="true"><dc:Bounds x="0" y="0" width="1564" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane0" bpmnElement="lane0" isHorizontal="true"><dc:Bounds x="34" y="68" width="1530" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane1" bpmnElement="lane1" isHorizontal="true"><dc:Bounds x="34" y="200" width="1530" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane2" bpmnElement="lane2" isHorizontal="true"><dc:Bounds x="34" y="332" width="1530" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane3" bpmnElement="lane3" isHorizontal="true"><dc:Bounds x="34" y="464" width="1530" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_s" bpmnElement="s"><dc:Bounds x="129.0" y="116.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t1" bpmnElement="t1"><dc:Bounds x="221.0" y="92.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_g" bpmnElement="g"><dc:Bounds x="392.0" y="111.0" width="46" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_e0" bpmnElement="e0"><dc:Bounds x="531.0" y="116.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t2" bpmnElement="t2"><dc:Bounds x="489.0" y="224.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t3" bpmnElement="t3"><dc:Bounds x="623.0" y="224.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_g1" bpmnElement="g1"><dc:Bounds x="794.0" y="243.0" width="46" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t5" bpmnElement="t5"><dc:Bounds x="891.0" y="356.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t6" bpmnElement="t6"><dc:Bounds x="891.0" y="488.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_g3" bpmnElement="g3"><dc:Bounds x="1062.0" y="507.0" width="46" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_g2" bpmnElement="g2"><dc:Bounds x="1196.0" y="507.0" width="46" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_e2" bpmnElement="e2"><dc:Bounds x="1335.0" y="380.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t7" bpmnElement="t7"><dc:Bounds x="1293.0" y="488.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_e3" bpmnElement="e3"><dc:Bounds x="1469.0" y="512.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_a1" bpmnElement="a1"><dc:Bounds x="152.5" y="231.0" width="165" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_a2" bpmnElement="a2"><dc:Bounds x="456.5" y="363.0" width="165" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_a3" bpmnElement="a3"><dc:Bounds x="580.5" y="495.0" width="165" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="e_f0" bpmnElement="f0"><di:waypoint x="165.0" y="134.0"/><di:waypoint x="221.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f1" bpmnElement="f1"><di:waypoint x="341.0" y="134.0"/><di:waypoint x="392.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f2" bpmnElement="f2"><di:waypoint x="438.0" y="134.0"/><di:waypoint x="531.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f3" bpmnElement="f3"><di:waypoint x="415.0" y="157.0"/><di:waypoint x="415.0" y="266.0"/><di:waypoint x="489.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f4" bpmnElement="f4"><di:waypoint x="609.0" y="266.0"/><di:waypoint x="623.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f5" bpmnElement="f5"><di:waypoint x="743.0" y="266.0"/><di:waypoint x="794.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f6" bpmnElement="f6"><di:waypoint x="817.0" y="289.0"/><di:waypoint x="817.0" y="398.0"/><di:waypoint x="891.0" y="398.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f7" bpmnElement="f7"><di:waypoint x="817.0" y="289.0"/><di:waypoint x="817.0" y="530.0"/><di:waypoint x="891.0" y="530.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f8" bpmnElement="f8"><di:waypoint x="1011.0" y="398.0"/><di:waypoint x="1085.0" y="398.0"/><di:waypoint x="1085.0" y="507.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f9" bpmnElement="f9"><di:waypoint x="1011.0" y="530.0"/><di:waypoint x="1062.0" y="530.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f10" bpmnElement="f10"><di:waypoint x="1108.0" y="530.0"/><di:waypoint x="1196.0" y="530.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f11" bpmnElement="f11"><di:waypoint x="1242.0" y="530.0"/><di:waypoint x="1293.0" y="530.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f12" bpmnElement="f12"><di:waypoint x="1219.0" y="507.0"/><di:waypoint x="1219.0" y="398.0"/><di:waypoint x="1335.0" y="398.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f13" bpmnElement="f13"><di:waypoint x="1413.0" y="530.0"/><di:waypoint x="1469.0" y="530.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_mf0" bpmnElement="mf0"><di:waypoint x="147.0" y="46"/><di:waypoint x="147.0" y="116.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_as_a1" bpmnElement="as_a1"><di:waypoint x="176.5" y="231.0"/><di:waypoint x="281.0" y="176.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_as_a2" bpmnElement="as_a2"><di:waypoint x="480.5" y="363.0"/><di:waypoint x="549.0" y="308.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_as_a3" bpmnElement="as_a3"><di:waypoint x="604.5" y="495.0"/><di:waypoint x="683.0" y="308.0"/></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram></definitions>

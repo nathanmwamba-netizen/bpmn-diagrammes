@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="defs_change" targetNamespace="https://upc.ac.cd/cours/cyb7320">
+<collaboration id="collab">
+<participant id="pool_main" name="UnitedHealth Group et Change Healthcare" processRef="proc"/>
+<participant id="pool_ext" name="ALPHV/BlackCat, puis RansomHub"/>
+<messageFlow id="mf0" sourceRef="t5" targetRef="pool_ext"/>
+<messageFlow id="mf1" sourceRef="pool_ext" targetRef="c"/>
+</collaboration>
+<process id="proc" isExecutable="false"><laneSet id="ls">
+<lane id="lane0" name="Direction de UnitedHealth"><flowNodeRef>t3</flowNodeRef><flowNodeRef>g2</flowNodeRef><flowNodeRef>t5</flowNodeRef><flowNodeRef>c</flowNodeRef><flowNodeRef>g3</flowNodeRef></lane>
+<lane id="lane1" name="Informatique de Change Healthcare"><flowNodeRef>s</flowNodeRef><flowNodeRef>t1</flowNodeRef><flowNodeRef>t2</flowNodeRef><flowNodeRef>g1</flowNodeRef><flowNodeRef>g4</flowNodeRef><flowNodeRef>t6</flowNodeRef></lane>
+<lane id="lane2" name="Optum"><flowNodeRef>t4</flowNodeRef><flowNodeRef>e</flowNodeRef></lane>
+</laneSet>
+<startEvent id="s" name="Chiffrement détecté"><outgoing>f0</outgoing></startEvent>
+<task id="t1" name="Déconnecter les centres de données"><incoming>f0</incoming><outgoing>f1</outgoing></task>
+<task id="t2" name="Évaluer l&#x27;impact sur le système de santé"><incoming>f1</incoming><outgoing>f2</outgoing></task>
+<parallelGateway id="g1" name=""><incoming>f2</incoming><outgoing>f3</outgoing><outgoing>f4</outgoing></parallelGateway>
+<task id="t3" name="Examiner le paiement de la rançon"><incoming>f3</incoming><outgoing>f5</outgoing></task>
+<task id="t4" name="Verser une aide financière aux prestataires"><incoming>f4</incoming><outgoing>f11</outgoing></task>
+<exclusiveGateway id="g2" name="Payer ?"><incoming>f5</incoming><outgoing>f6</outgoing><outgoing>f7</outgoing></exclusiveGateway>
+<task id="t5" name="Payer environ 22 M$ en Bitcoin"><incoming>f6</incoming><outgoing>f8</outgoing></task>
+<intermediateCatchEvent id="c" name="Nouvelle extorsion"><incoming>f8</incoming><outgoing>f9</outgoing><messageEventDefinition id="med_c"/></intermediateCatchEvent>
+<exclusiveGateway id="g3" name=""><incoming>f7</incoming><incoming>f9</incoming><outgoing>f10</outgoing></exclusiveGateway>
+<parallelGateway id="g4" name=""><incoming>f10</incoming><incoming>f11</incoming><outgoing>f12</outgoing></parallelGateway>
+<task id="t6" name="Notifier environ 190 M de personnes"><incoming>f12</incoming><outgoing>f13</outgoing></task>
+<endEvent id="e" name="Personnes notifiées"><incoming>f13</incoming></endEvent>
+<sequenceFlow id="f0" sourceRef="s" targetRef="t1"/>
+<sequenceFlow id="f1" sourceRef="t1" targetRef="t2"/>
+<sequenceFlow id="f2" sourceRef="t2" targetRef="g1"/>
+<sequenceFlow id="f3" sourceRef="g1" targetRef="t3"/>
+<sequenceFlow id="f4" sourceRef="g1" targetRef="t4"/>
+<sequenceFlow id="f5" sourceRef="t3" targetRef="g2"/>
+<sequenceFlow id="f6" name="oui" sourceRef="g2" targetRef="t5"/>
+<sequenceFlow id="f7" name="non" sourceRef="g2" targetRef="g3"/>
+<sequenceFlow id="f8" sourceRef="t5" targetRef="c"/>
+<sequenceFlow id="f9" sourceRef="c" targetRef="g3"/>
+<sequenceFlow id="f10" sourceRef="g3" targetRef="g4"/>
+<sequenceFlow id="f11" sourceRef="t4" targetRef="g4"/>
+<sequenceFlow id="f12" sourceRef="g4" targetRef="t6"/>
+<sequenceFlow id="f13" sourceRef="t6" targetRef="e"/>
+<textAnnotation id="a1"><text>Défaillance : portail Citrix sans MFA, un défaut de reporting de gouvernance</text></textAnnotation><association id="as_a1" sourceRef="a1" targetRef="t3"/>
+<textAnnotation id="a2"><text>Défaillance : pas de plan sectoriel pour l&#x27;indisponibilité d&#x27;un acteur central</text></textAnnotation><association id="as_a2" sourceRef="a2" targetRef="t4"/>
+</process><bpmndi:BPMNDiagram id="dg"><bpmndi:BPMNPlane id="pl" bpmnElement="collab">
+<bpmndi:BPMNShape id="s_pool_main" bpmnElement="pool_main" isHorizontal="true"><dc:Bounds x="0" y="68" width="1430" height="396"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_pool_ext" bpmnElement="pool_ext" isHorizontal="true"><dc:Bounds x="0" y="0" width="1430" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane0" bpmnElement="lane0" isHorizontal="true"><dc:Bounds x="34" y="68" width="1396" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane1" bpmnElement="lane1" isHorizontal="true"><dc:Bounds x="34" y="200" width="1396" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_lane2" bpmnElement="lane2" isHorizontal="true"><dc:Bounds x="34" y="332" width="1396" height="132"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_s" bpmnElement="s"><dc:Bounds x="129.0" y="248.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t1" bpmnElement="t1"><dc:Bounds x="221.0" y="224.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t2" bpmnElement="t2"><dc:Bounds x="355.0" y="224.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_g1" bpmnElement="g1"><dc:Bounds x="526.0" y="243.0" width="46" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t3" bpmnElement="t3"><dc:Bounds x="623.0" y="92.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t4" bpmnElement="t4"><dc:Bounds x="623.0" y="356.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_g2" bpmnElement="g2"><dc:Bounds x="794.0" y="111.0" width="46" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t5" bpmnElement="t5"><dc:Bounds x="891.0" y="92.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_c" bpmnElement="c"><dc:Bounds x="1067.0" y="116.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_g3" bpmnElement="g3"><dc:Bounds x="1196.0" y="111.0" width="46" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_g4" bpmnElement="g4"><dc:Bounds x="1196.0" y="243.0" width="46" height="46"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_t6" bpmnElement="t6"><dc:Bounds x="1293.0" y="224.0" width="120" height="84"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_e" bpmnElement="e"><dc:Bounds x="1335.0" y="380.0" width="36" height="36"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_a1" bpmnElement="a1"><dc:Bounds x="620.5" y="233.0" width="165" height="70"/></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="s_a2" bpmnElement="a2"><dc:Bounds x="826.0" y="412.0" width="270" height="44"/></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="e_f0" bpmnElement="f0"><di:waypoint x="165.0" y="266.0"/><di:waypoint x="221.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f1" bpmnElement="f1"><di:waypoint x="341.0" y="266.0"/><di:waypoint x="355.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f2" bpmnElement="f2"><di:waypoint x="475.0" y="266.0"/><di:waypoint x="526.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f3" bpmnElement="f3"><di:waypoint x="549.0" y="243.0"/><di:waypoint x="549.0" y="134.0"/><di:waypoint x="623.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f4" bpmnElement="f4"><di:waypoint x="549.0" y="289.0"/><di:waypoint x="549.0" y="398.0"/><di:waypoint x="623.0" y="398.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f5" bpmnElement="f5"><di:waypoint x="743.0" y="134.0"/><di:waypoint x="794.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f6" bpmnElement="f6"><di:waypoint x="840.0" y="134.0"/><di:waypoint x="891.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f7" bpmnElement="f7"><di:waypoint x="817.0" y="111.0"/><di:waypoint x="817.0" y="92.0"/><di:waypoint x="1219.0" y="92.0"/><di:waypoint x="1219.0" y="111.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f8" bpmnElement="f8"><di:waypoint x="1011.0" y="134.0"/><di:waypoint x="1067.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f9" bpmnElement="f9"><di:waypoint x="1103.0" y="134.0"/><di:waypoint x="1196.0" y="134.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f10" bpmnElement="f10"><di:waypoint x="1219.0" y="157.0"/><di:waypoint x="1219.0" y="243.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f11" bpmnElement="f11"><di:waypoint x="743.0" y="398.0"/><di:waypoint x="1219.0" y="398.0"/><di:waypoint x="1219.0" y="289.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f12" bpmnElement="f12"><di:waypoint x="1242.0" y="266.0"/><di:waypoint x="1293.0" y="266.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_f13" bpmnElement="f13"><di:waypoint x="1353.0" y="308.0"/><di:waypoint x="1353.0" y="380.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_mf0" bpmnElement="mf0"><di:waypoint x="951.0" y="92.0"/><di:waypoint x="951.0" y="46"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_mf1" bpmnElement="mf1"><di:waypoint x="1085.0" y="46"/><di:waypoint x="1085.0" y="116.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_as_a1" bpmnElement="as_a1"><di:waypoint x="644.5" y="233.0"/><di:waypoint x="683.0" y="176.0"/></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="e_as_a2" bpmnElement="as_a2"><di:waypoint x="850.0" y="412.0"/><di:waypoint x="683.0" y="440.0"/></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram></definitions>
